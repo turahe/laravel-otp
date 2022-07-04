@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ For the full copyright and license information, please view the LICENSE
+  ~  file that was distributed with this source code.
+  ~
+  ~ ██████   █████  ██   ██ ██   ██  █████  ███████  █████
+  ~ ██   ██ ██   ██ ██  ██  ██   ██ ██   ██ ██      ██   ██
+  ~ ██████  ███████ █████   ███████ ███████ ███████ ███████
+  ~ ██   ██ ██   ██ ██  ██  ██   ██ ██   ██      ██ ██   ██
+  ~ ██   ██ ██   ██ ██   ██ ██   ██ ██   ██ ███████ ██   ██
+  ~
+  ~
+  ~
+  ~  @modified   6/15/22, 11:52 AM
+  ~  @company   PT. Rakhasa Arta HQ
+  ~  @author         Nur Wachid
+  ~  @copyright      Copyright (c) 2022.
+  ~
+  -->
+
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+>
+    <testsuites>
+        <testsuite name="Package Test Suite">
+            <directory suffix=".php">./tests/</directory>
+        </testsuite>
+    </testsuites>
+    <php>
+        <env name="DB_CONNECTION" value="sqlite"/>
+    </php>
+</phpunit>
