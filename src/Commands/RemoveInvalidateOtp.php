@@ -2,7 +2,7 @@
 namespace Turahe\Otp\Commands;
 
 use Illuminate\Console\Command;
-use Turahe\Otp\Models\OtpVerification;
+use Turahe\Otp\Models\OtpToken;
 
 class RemoveInvalidateOtp extends Command
 {

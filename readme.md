@@ -9,7 +9,7 @@ This is a simple package to generate and validate OTPs (One Time Passwords). Thi
 Install via composer
 
 ```bash
-composer require rakhasa/otp
+composer require turahe/otp
 ```
 
 Add service provider to the `config/app.php` file
@@ -29,7 +29,7 @@ Add service provider to the `config/app.php` file
 
     'providers' => [
         ...
-        Rakhasa\Otp\OtpServiceProvider::class,
+        Turahe\Otp\OtpServiceProvider::class,
     ];
 ...
 ```
@@ -52,7 +52,7 @@ Add alias to the `config/app.php` file
 
     'aliases' => [
         ...
-        'Otp' => Rakhasa\Otp\Otp::class,
+        'Otp' => Turahe\Otp\Otp::class,
     ];
 ...
 ```
@@ -83,7 +83,7 @@ Otp::generate(string $identifier int $validity = 10)
 
 ```php
 <?php
-use Rakhasa\otp\Facades\Otp;
+use Turahe\otp\Facades\Otp;
 $otp = Otp::generate('nur@wach.id', 15);
 ```
 
@@ -91,9 +91,11 @@ This will generate a six digit OTP that will be valid for 15 minutes and the suc
 
 ```object
 {
-  "status": true,
+  "id": 1,
+  "identity": "nur@wach.id",
   "token": "282581",
-  "message": "OTP generated"
+  "created_at": "2020-01-01 00:00:00",
+  "updated_at": "2020-01-01 00:00:00"
 }
 ```
 
@@ -116,43 +118,6 @@ Otp::validate(string $identifier, string $token)
 $otp = Otp::validate('nur@wach.id', '282581');
 ```
 
-#### Responses
-
-**On Success**
-
-```object
-{
-  "status": true,
-  "message": "OTP is valid"
-}
-```
-
-**Does not exist**
-
-```object
-{
-  "status": false,
-  "message": "OTP does not exist"
-}
-```
-
-**Not Valid***
-
-```object
-{
-  "status": false,
-  "message": "OTP is not valid"
-}
-```
-
-**Expired**
-
-```object
-{
-  "status": false,
-  "message": "OTP Expired"
-}
-```
 
 ### Delete expired tokens
 You can delete expired tokens by running the following artisan command:
