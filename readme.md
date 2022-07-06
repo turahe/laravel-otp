@@ -52,7 +52,7 @@ Add alias to the `config/app.php` file
 
     'aliases' => [
         ...
-        'Otp' => Turahe\Otp\Otp::class,
+        'Token' => Turahe\Otp\Otp::class,
     ];
 ...
 ```

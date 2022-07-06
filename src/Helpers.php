@@ -4,11 +4,11 @@ if (! function_exists('validation_number')) {
     /**
      * Validate phone number
      *
-     * @param $number
+     * @param string|int $number
      * @return bool
      * @throws \libphonenumber\NumberParseException
      */
-    function validation_number($number): bool
+    function validation_number(string|int $number): bool
     {
         $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $parseNumber = $phoneUtil->parse($number, mb_strtoupper(config('app.locale', 'id')));
@@ -22,11 +22,11 @@ if (!function_exists('format_phone')) {
     /**
      * Format phone number
      *
-     * @param $number
+     * @param string|int $number
      * @return string
      * @throws \libphonenumber\NumberParseException
      */
-    function format_phone($number): string
+    function format_phone(string|int $number): string
     {
         $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $parseNumber = $phoneUtil->parse($number, 'ID');
@@ -49,5 +49,30 @@ if (!function_exists('format_whatsapp')) {
         $phoneNumber = $phoneUtil->format($parseNumber, \libphonenumber\PhoneNumberFormat::E164); // +62812341234
 
         return str_replace('+', '', $phoneNumber);
+    }
+}
+
+if (! function_exists('get_email_provider')) {
+    /**
+     * Get single or multiple values from settings table
+     */
+    function get_email_provider(string $email): string
+    {
+        $provider = explode('@', $email);
+
+        return end($provider);
+    }
+}
+
+if (! function_exists('validate_email')) {
+    /**
+     * Determine if the validation rule passes.
+     */
+    function validate_email($value): bool
+    {
+        $providers = config('disposable-email-providers');
+        $provider = get_email_provider($value);
+
+        return ! in_array($provider, $providers);
     }
 }

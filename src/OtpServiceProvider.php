@@ -2,7 +2,9 @@
 
 namespace Turahe\Otp;
 
-use Turahe\Otp\Services\Otp;
+use Illuminate\Support\Facades\Validator;
+use Turahe\Otp\Rules\EmailProvider;
+use Turahe\Otp\Services\Token;
 use Illuminate\Support\ServiceProvider;
 
 class OtpServiceProvider extends ServiceProvider
@@ -10,8 +12,16 @@ class OtpServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind('otp', function () {
-            return new Otp;
+            return new Token;
         });
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/otp.php', 'otp'
+        );
+
+        $this->mergeConfigFrom(
+            __DIR__ . '/../config/disposable-email-providers.php', 'disposable-email-providers'
+        );
     }
 
     public function boot()
@@ -31,5 +41,8 @@ class OtpServiceProvider extends ServiceProvider
             'otp'
         );
         $this->loadMigrationsFrom([__DIR__ . '/../database/migrations']);
+
+
+        Validator::extend('email_provider', EmailProvider::class);
     }
 }
