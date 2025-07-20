@@ -24,5 +24,4 @@ class EmailProvider implements Rule
     {
         return 'This :attribute email provider is not accepted.';
     }
-
 }

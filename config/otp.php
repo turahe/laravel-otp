@@ -19,7 +19,7 @@ return [
      * the otp tokens.
      */
 
-    'table'   => 'otp_tokens',
+    'table' => 'otp_tokens',
 
     /*
      * The expiry time of the tokens in minutes.

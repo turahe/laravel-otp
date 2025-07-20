@@ -101,4 +101,4 @@ class OtpTokenFactory extends Factory
             'identity' => $identity,
         ]);
     }
-} 
+}

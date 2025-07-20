@@ -3,19 +3,19 @@
 namespace Turahe\Otp\Mail;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Mail\Mailable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class SendOtp extends Mailable implements ShouldQueue
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * The content instance.
-     *
-     * @var
      */
     protected $content;
 
@@ -34,9 +34,9 @@ class SendOtp extends Mailable implements ShouldQueue
         $otp = $this->content->token;
 
         return $this->markdown('otp::emails.otp')
-            ->subject($otp .' '.__('your code verification') . ' - ' . config('app.name', 'Rumah berkat'))
+            ->subject($otp.' '.__('your code verification').' - '.config('app.name', 'Rumah berkat'))
             ->with([
-                'otp'  => $otp,
+                'otp' => $otp,
             ]);
     }
 }

@@ -6,7 +6,6 @@ use Illuminate\Support\Facades\Mail;
 
 /**
  * Class SendOtp.
- * @package App\Jobs
  */
 class SendOtp
 {
@@ -14,15 +13,11 @@ class SendOtp
      * @var string
      */
     public $email;
-    /**
-     * @var
-     */
+
     public $otp;
 
     /**
      * SendOtp constructor.
-     * @param string $email
-     * @param $otp
      */
     public function __construct(string $email, $otp)
     {

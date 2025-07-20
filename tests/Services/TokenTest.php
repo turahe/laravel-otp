@@ -3,13 +3,12 @@
 namespace Turahe\Otp\Test\Services;
 
 use Carbon\Carbon;
-use Turahe\Otp\Models\OtpToken;
 use Turahe\Otp\Services\Token;
 use Turahe\Otp\Test\TestCase;
 
 /**
  * Token Service Test Suite
- * 
+ *
  * Tests the Token service class functionality:
  * - Constructor and attribute management
  * - Static generate method
@@ -21,13 +20,13 @@ class TokenTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        
+
         // Set up test configuration
         config(['otp.table' => 'otp_tokens']);
         config(['otp.expires' => 15]); // 15 minutes
     }
 
-    public function testConstructorWithAllParameters()
+    public function test_constructor_with_all_parameters()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -43,7 +42,7 @@ class TokenTest extends TestCase
         $this->assertEquals($updatedAt->toDateTimeString(), $tokenInstance->updatedAt()->toDateTimeString());
     }
 
-    public function testConstructorWithMinimalParameters()
+    public function test_constructor_with_minimal_parameters()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -56,7 +55,7 @@ class TokenTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $tokenInstance->updatedAt());
     }
 
-    public function testConstructorWithNullExpiryTime()
+    public function test_constructor_with_null_expiry_time()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -67,7 +66,7 @@ class TokenTest extends TestCase
         $this->assertEquals(15 * 60, $tokenInstance->attributes['expired']); // 15 minutes in seconds
     }
 
-    public function testToNotificationMethod()
+    public function test_to_notification_method()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -79,10 +78,10 @@ class TokenTest extends TestCase
         $this->assertInstanceOf(\Illuminate\Notifications\Notification::class, $notification);
     }
 
-    public function testRetrieveByAttributesMethod()
+    public function test_retrieve_by_attributes_method()
     {
         $attributes = ['identity' => 'test@example.com', 'token' => '123456'];
-        
+
         // This method is not implemented yet, so it should throw an exception or return null
         try {
             $retrievedToken = Token::retrieveByAttributes($attributes);
@@ -93,12 +92,12 @@ class TokenTest extends TestCase
         }
     }
 
-    public function testTokenWithDifferentIdentityTypes()
+    public function test_token_with_different_identity_types()
     {
         $identities = [
             'string' => 'test@example.com',
             'integer' => 12345,
-            'numeric_string' => '12345'
+            'numeric_string' => '12345',
         ];
 
         foreach ($identities as $type => $identity) {
@@ -110,7 +109,7 @@ class TokenTest extends TestCase
         }
     }
 
-    public function testTokenAttributesArray()
+    public function test_token_attributes_array()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -126,7 +125,7 @@ class TokenTest extends TestCase
         $this->assertArrayHasKey('updated_at', $tokenInstance->attributes);
     }
 
-    public function testTokenWithZeroExpiryTime()
+    public function test_token_with_zero_expiry_time()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -137,7 +136,7 @@ class TokenTest extends TestCase
         $this->assertEquals(0, $tokenInstance->attributes['expired']);
     }
 
-    public function testTokenWithNegativeExpiryTime()
+    public function test_token_with_negative_expiry_time()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -148,7 +147,7 @@ class TokenTest extends TestCase
         $this->assertEquals(-300, $tokenInstance->attributes['expired']);
     }
 
-    public function testTokenWithVeryLongExpiryTime()
+    public function test_token_with_very_long_expiry_time()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -159,13 +158,13 @@ class TokenTest extends TestCase
         $this->assertEquals(86400 * 365, $tokenInstance->attributes['expired']);
     }
 
-    public function testTokenWithSpecialCharacters()
+    public function test_token_with_special_characters()
     {
         $identities = [
             'email_with_plus' => 'test+tag@example.com',
             'email_with_dots' => 'user.name@domain.com',
             'email_with_hyphens' => 'user-name@sub.domain.com',
-            'email_with_underscores' => 'user_name@example.co.uk'
+            'email_with_underscores' => 'user_name@example.co.uk',
         ];
 
         foreach ($identities as $type => $identity) {
@@ -177,7 +176,7 @@ class TokenTest extends TestCase
         }
     }
 
-    public function testTokenWithEmptyString()
+    public function test_token_with_empty_string()
     {
         $identity = '';
         $token = '123456';
@@ -188,7 +187,7 @@ class TokenTest extends TestCase
         $this->assertEquals('123456', $tokenInstance->token());
     }
 
-    public function testTokenWithWhitespace()
+    public function test_token_with_whitespace()
     {
         $identity = '  test@example.com  ';
         $token = '  123456  ';
@@ -199,7 +198,7 @@ class TokenTest extends TestCase
         $this->assertEquals('  123456  ', $tokenInstance->token());
     }
 
-    public function testTokenWithUnicodeCharacters()
+    public function test_token_with_unicode_characters()
     {
         $identity = 'test@测试.com';
         $token = '123测试456';
@@ -210,7 +209,7 @@ class TokenTest extends TestCase
         $this->assertEquals('123测试456', $tokenInstance->token());
     }
 
-    public function testTokenWithLongValues()
+    public function test_token_with_long_values()
     {
         $identity = str_repeat('a', 1000);
         $token = str_repeat('1', 1000);
@@ -221,7 +220,7 @@ class TokenTest extends TestCase
         $this->assertEquals(str_repeat('1', 1000), $tokenInstance->token());
     }
 
-    public function testTokenWithNullValues()
+    public function test_token_with_null_values()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -234,7 +233,7 @@ class TokenTest extends TestCase
         $this->assertInstanceOf(Carbon::class, $tokenInstance->updatedAt());
     }
 
-    public function testTokenWithFutureDates()
+    public function test_token_with_future_dates()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -250,7 +249,7 @@ class TokenTest extends TestCase
         $this->assertEquals($updatedAt->toDateTimeString(), $tokenInstance->updatedAt()->toDateTimeString());
     }
 
-    public function testTokenWithPastDates()
+    public function test_token_with_past_dates()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -266,14 +265,14 @@ class TokenTest extends TestCase
         $this->assertEquals($updatedAt->toDateTimeString(), $tokenInstance->updatedAt()->toDateTimeString());
     }
 
-    public function testTokenSerialization()
+    public function test_token_serialization()
     {
         $identity = 'test@example.com';
         $token = '123456';
         $expiryTime = 300;
 
         $tokenInstance = new Token($identity, $token, $expiryTime);
-        
+
         $serialized = serialize($tokenInstance);
         $unserialized = unserialize($serialized);
 
@@ -282,7 +281,7 @@ class TokenTest extends TestCase
         $this->assertEquals($expiryTime, $unserialized->attributes['expired']);
     }
 
-    public function testTokenClone()
+    public function test_token_clone()
     {
         $identity = 'test@example.com';
         $token = '123456';
@@ -296,4 +295,4 @@ class TokenTest extends TestCase
         $this->assertEquals($expiryTime, $clonedToken->attributes['expired']);
         $this->assertNotSame($tokenInstance, $clonedToken);
     }
-} 
+}

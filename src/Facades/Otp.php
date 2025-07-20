@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Facade;
  * @method static \Turahe\Otp\Services\Token generate(string $identity, int $expired = 10)
  * @method static \Turahe\Otp\Services\Token validate(string $identity, string $token)
  */
-
 class Otp extends Facade
 {
     /**

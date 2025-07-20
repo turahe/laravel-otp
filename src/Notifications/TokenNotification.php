@@ -14,7 +14,8 @@ use Turahe\Otp\Contracts\TokenInterface;
  */
 class TokenNotification extends Notification implements ShouldQueue
 {
-    use Queueable, Macroable;
+    use Macroable;
+    use Queueable;
 
     /**
      * The token implementation.
@@ -25,8 +26,6 @@ class TokenNotification extends Notification implements ShouldQueue
 
     /**
      * TokenGenerated constructor.
-     *
-     * @param TokenInterface $token
      */
     public function __construct(TokenInterface $token)
     {
@@ -36,8 +35,7 @@ class TokenNotification extends Notification implements ShouldQueue
     /**
      * Get the notification's delivery channels.
      *
-     * @param mixed $notifiable
-     *
+     * @param  mixed  $notifiable
      * @return array
      */
     public function via($notifiable)
@@ -53,12 +51,10 @@ class TokenNotification extends Notification implements ShouldQueue
 
     /**
      * Get the mail presentation of the notification.
-     *
-     * @return MailMessage
      */
     public function toMail(): MailMessage
     {
-        return (new MailMessage())
+        return (new MailMessage)
             ->subject(config('app.name').' One Time Password')
             ->greeting('Hello!')
             ->line('Somebody recently requested for a one-time password in behalf of you.')
@@ -68,8 +64,6 @@ class TokenNotification extends Notification implements ShouldQueue
 
     /**
      * Get the sms presentation of the notification.
-     *
-     * @return string
      */
     public function toSms(): string
     {

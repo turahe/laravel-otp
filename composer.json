@@ -1,7 +1,6 @@
 {
     "name": "turahe/otp",
     "description": "send OTP to every where",
-    "minimum-stability": "dev",
     "license": "MIT",
     "authors": [
         {
@@ -11,40 +10,43 @@
     ],
     "require": {
         "php": "^8.2",
-        "illuminate/support": "^10.0|^11.0|^12.0",
-        "illuminate/notifications": "^10.0|^11.0|^12.0",
-        "illuminate/container": "^10.0|^11.0|^12.0",
-        "giggsey/libphonenumber-for-php": "^8.0"
+        "giggsey/libphonenumber-for-php": "^8.0",
+        "illuminate/container": "^10.0 || ^11.0 || ^12.0",
+        "illuminate/notifications": "^10.0 || ^11.0 || ^12.0",
+        "illuminate/support": "^10.0 || ^11.0 || ^12.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^8.0|^9.0|^10.0",
-        "friendsofphp/php-cs-fixer": "^3.1"
+        "laravel/pint": "^1.0",
+        "orchestra/testbench": "^8.0 || ^9.0 || ^10.0"
     },
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Turahe\\Otp\\": "src/"
         },
-        "files": ["src/Helpers.php"]
+        "files": [
+            "src/Helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "Turahe\\Otp\\Test\\": "tests/"
         }
     },
-    "scripts": {
-        "test": "phpunit",
-        "cs-check": "php-cs-fixer fix --dry-run --diff",
-        "cs-fix": "php-cs-fixer fix",
-        "stan": "phpstan analyse"
-    },
     "extra": {
         "laravel": {
-            "providers": [
-                "Turahe\\Otp\\OtpServiceProvider"
-            ],
             "aliases": {
                 "Otp": "Turahe\\Otp\\Facades\\Otp"
-            }
+            },
+            "providers": [
+                "Turahe\\Otp\\OtpServiceProvider"
+            ]
         }
+    },
+    "scripts": {
+        "cs-check": "pint --test",
+        "cs-fix": "pint",
+        "stan": "phpstan analyse",
+        "test": "phpunit"
     }
 }

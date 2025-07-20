@@ -4,8 +4,6 @@ if (! function_exists('validation_number')) {
     /**
      * Validate phone number
      *
-     * @param string|int $number
-     * @return bool
      * @throws \libphonenumber\NumberParseException
      */
     function validation_number(string|int $number): bool
@@ -18,28 +16,25 @@ if (! function_exists('validation_number')) {
     }
 }
 
-if (!function_exists('format_phone')) {
+if (! function_exists('format_phone')) {
     /**
      * Format phone number
      *
-     * @param string|int $number
-     * @return string
      * @throws \libphonenumber\NumberParseException
      */
     function format_phone(string|int $number): string
     {
         $phoneUtil = \libphonenumber\PhoneNumberUtil::getInstance();
         $parseNumber = $phoneUtil->parse($number, 'ID');
+
         return $phoneUtil->format($parseNumber, \libphonenumber\PhoneNumberFormat::E164); // +62812341234
     }
 }
 
-if (!function_exists('format_whatsapp')) {
+if (! function_exists('format_whatsapp')) {
     /**
      * Format phone number
      *
-     * @param $number
-     * @return string
      * @throws \libphonenumber\NumberParseException
      */
     function format_whatsapp($number): string

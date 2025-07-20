@@ -2,11 +2,11 @@
 
 namespace Turahe\Otp\Test;
 
-use Turahe\Otp\OtpServiceProvider;
-use Illuminate\Support\Facades\File;
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
+use Turahe\Otp\OtpServiceProvider;
 
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -24,7 +24,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     }
 
     /**
-     * @param Application $app
+     * @param  Application  $app
      */
     protected function getEnvironmentSetUp($app)
     {
@@ -32,18 +32,15 @@ class TestCase extends \Orchestra\Testbench\TestCase
 
         config()->set('database.default', 'sqlite');
         config()->set('database.connections.sqlite', [
-            'driver'   => 'sqlite',
-            'database' => $this->getTempDirectory() . '/database.sqlite',
-            'prefix'   => '',
+            'driver' => 'sqlite',
+            'database' => $this->getTempDirectory().'/database.sqlite',
+            'prefix' => '',
         ]);
     }
 
-    /**
-     * @param Application $app
-     */
     protected function setUpDatabase(Application $app)
     {
-        file_put_contents($this->getTempDirectory() . '/database.sqlite', null);
+        file_put_contents($this->getTempDirectory().'/database.sqlite', null);
 
         Schema::create('test_models', function (Blueprint $table) {
             $table->increments('id');
@@ -67,13 +64,13 @@ class TestCase extends \Orchestra\Testbench\TestCase
         if (File::isDirectory($directory)) {
             File::deleteDirectory($directory);
         }
-        if (!File::isDirectory($directory)) {
+        if (! File::isDirectory($directory)) {
             File::makeDirectory($directory, 0755, true);
         }
     }
 
     protected function getTempDirectory(): string
     {
-        return __DIR__ . '/temp';
+        return __DIR__.'/temp';
     }
 }

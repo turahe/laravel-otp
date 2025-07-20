@@ -13,8 +13,6 @@ class Token implements TokenInterface
 {
     /**
      * The attributes of the token.
-     *
-     * @var array
      */
     public array $attributes = [
         'identity' => null,
@@ -26,12 +24,6 @@ class Token implements TokenInterface
 
     /**
      * Token constructor.
-     *
-     * @param string|int $identity
-     * @param string $token
-     * @param null|int $expiryTime
-     * @param null|Carbon $createdAt
-     * @param null|Carbon $updatedAt
      */
     public function __construct(
         string|int $identity,
@@ -46,15 +38,9 @@ class Token implements TokenInterface
         $this->attributes['token'] = $token;
         $this->attributes['created_at'] = $createdAt ?: $now;
         $this->attributes['updated_at'] = $updatedAt ?: $now;
-        $this->attributes['expired'] = null === $expiryTime ? $this->getDefaultExpiryTime() : $expiryTime;
+        $this->attributes['expired'] = $expiryTime === null ? $this->getDefaultExpiryTime() : $expiryTime;
     }
 
-
-    /**
-     * @param string|int $identity
-     * @param int $expiresAt
-     * @return Token
-     */
     public static function generate(string|int $identity, int $expiresAt = 10): self
     {
         Model::where('identity', $identity)->delete();
@@ -64,15 +50,10 @@ class Token implements TokenInterface
         return Model::create([
             'identity' => $identity,
             'token' => $token,
-            'expired' => Carbon::now()->addMinutes($expiresAt)
+            'expired' => Carbon::now()->addMinutes($expiresAt),
         ]);
     }
 
-    /**
-     * @param string $identity
-     * @param string $token
-     * @return bool
-     */
     public function validate(string $identity, string $token): bool
     {
         $otp = Model::where(['identity' => $identity, 'token' => $token])
@@ -147,7 +128,7 @@ class Token implements TokenInterface
 
     public function extend(?int $seconds = null): bool
     {
-        $seconds = null === $seconds ? $this->getDefaultExpiryTime() : $seconds;
+        $seconds = $seconds === null ? $this->getDefaultExpiryTime() : $seconds;
 
         $this->attributes['expiry_time'] += $seconds;
 
@@ -166,8 +147,6 @@ class Token implements TokenInterface
 
     /**
      * Persist the token in the storage.
-     *
-     * @return bool
      */
     protected function persist(): bool
     {
@@ -186,7 +165,7 @@ class Token implements TokenInterface
 
             DB::table(self::getTable())->updateOrInsert([
                 'identity' => $this->identity(),
-                'token'      => $this->cipherText(),
+                'token' => $this->cipherText(),
             ], $attributes);
 
             DB::commit();
@@ -205,8 +184,6 @@ class Token implements TokenInterface
 
     /**
      * Get the date time at the moment.
-     *
-     * @return Carbon
      */
     private function getNow(): Carbon
     {
@@ -215,8 +192,6 @@ class Token implements TokenInterface
 
     /**
      * Get the name of the table token will be persisted.
-     *
-     * @return string
      */
     private static function getTable(): string
     {
@@ -225,8 +200,6 @@ class Token implements TokenInterface
 
     /**
      * Get the default expiry time in seconds.
-     *
-     * @return int
      */
     private function getDefaultExpiryTime(): int
     {

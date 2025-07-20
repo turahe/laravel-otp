@@ -1,4 +1,5 @@
 <?php
+
 namespace Turahe\Otp\Commands;
 
 use Illuminate\Console\Command;
