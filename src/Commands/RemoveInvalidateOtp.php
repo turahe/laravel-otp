@@ -32,7 +32,7 @@ class RemoveInvalidateOtp extends Command
      */
     public function handle()
     {
-        foreach (OtpVerification::expired()->get() as $otp) {
+        foreach (OtpToken::expired()->get() as $otp) {
             $otp->delete();
         }
 

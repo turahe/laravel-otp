@@ -2,10 +2,13 @@
 
 namespace Turahe\Otp\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class OtpToken extends Model
 {
+    use HasFactory;
+
     protected $table = 'otp_tokens';
 
     /**
@@ -18,4 +21,9 @@ class OtpToken extends Model
         'token',
         'expired',
     ];
+
+    public function scopeExpired($query)
+    {
+        return $query->where('expired', '<', now());
+    }
 }
